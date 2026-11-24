@@ -60,7 +60,7 @@ export default function MapPage() {
 
   return (
     <div className="space-y-6">
-      <PageTitle eyebrow="Learning path" title="CSEC Mathematics map" intro="Each arrow means “learn this first”. Prerequisites sit to the left. Tap an objective to see its links." />
+      <PageTitle preview eyebrow="Learning path" title="CSEC Mathematics map" intro="Each arrow means “learn this first”. Prerequisites sit to the left. Tap an objective to see its links." />
       <div className="flex flex-wrap gap-4 text-sm">
         {(Object.keys(STYLE) as LinkType[]).map(t => (
           <span key={t} className="flex items-center gap-2"><svg width="36" height="8"><line x1="0" y1="4" x2="36" y2="4" stroke={STYLE[t].stroke} strokeWidth={STYLE[t].width} strokeDasharray={STYLE[t].dash} /></svg>{STYLE[t].label}</span>

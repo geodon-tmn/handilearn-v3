@@ -40,10 +40,22 @@ Next 16 differs from older versions: read node_modules/next/dist/docs before
 using unfamiliar APIs (e.g. `params` is a Promise).
 
 ## Build stages
-0 clickable prototype (this) → 1 foundation (Supabase, auth, roles,
+0 clickable prototype (done) → 1 foundation (Supabase, auth, roles,
 territories) → 2 setup screens → 3 syllabus ingestion + AI provider comparison →
 4 learning-path graph → 5 enrolment and placement → 6 path, content, tutor →
 7 move v2 data and launch.
 
+## Database and auth
+- Schema changes are SQL files in supabase/migrations, applied in order by
+  scripts/migrate.mjs before every Vercel build (SUPABASE_DB_URL). Never edit an
+  applied migration; add a new numbered file.
+- Every table has row-level security. Admin writes require role global_admin
+  AND a two-factor session (aal2), enforced in the database by is_global_admin().
+- Write audit entries with the log_action() RPC from server actions.
+- The service-role client (src/lib/supabase/admin.ts) is server-only and used
+  only for the first-administrator bootstrap and reading two-factor status.
+- Env vars: see .env.example.
+
 ## Commands
-npm run dev · npm run build · npm run typecheck
+npm run dev · npm run build · npm run typecheck ·
+TEST_DB_URL=postgres://... npm run test:db (migrations + RLS checks on a local Postgres)

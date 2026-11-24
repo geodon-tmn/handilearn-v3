@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
-import { Eye } from "lucide-react";
+import { Eye, LogOut, UserRound } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Logo } from "./ui";
 
@@ -33,7 +33,9 @@ const NAV: Record<Role, { label: string; home: string; links: { href: string; la
 };
 
 /** Signed-in shell. In the prototype a switcher lets you view each role. */
-export function AppShell({ role, children, wide }: { role: Role; children: ReactNode; wide?: boolean }) {
+export type ShellUser = { name: string; email: string; roleLabel: string };
+
+export function AppShell({ role, children, wide, user, preview = true }: { role: Role; children: ReactNode; wide?: boolean; user?: ShellUser; preview?: boolean }) {
   const path = usePathname();
   const nav = NAV[role];
   return (
@@ -42,10 +44,16 @@ export function AppShell({ role, children, wide }: { role: Role; children: React
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-5 py-3 md:px-8">
           <div className="flex items-center gap-3">
             <Logo href={nav.home} />
-            <span className="hidden rounded-full bg-secondary px-3 py-1 text-xs font-semibold sm:inline">{nav.label}</span>
-            <PreviewBadge />
+            <span className="hidden rounded-full bg-secondary px-3 py-1 text-xs font-semibold sm:inline">{user?.roleLabel ?? nav.label}</span>
+            {preview && <PreviewBadge />}
           </div>
-          <RoleSwitcher role={role} />
+          <div className="flex flex-wrap items-center gap-2">
+            <RoleSwitcher role={role} />
+            {user && <>
+              <Link href="/account" title={user.email} className="flex items-center gap-1.5 rounded-full border bg-card px-3 py-1.5 text-xs font-semibold hover:border-accent"><UserRound className="h-3.5 w-3.5" />{user.name || user.email}</Link>
+              <form action="/auth/signout" method="post"><button aria-label="Sign out" className="rounded-full border bg-card p-1.5 hover:border-accent"><LogOut className="h-3.5 w-3.5" /></button></form>
+            </>}
+          </div>
           <nav aria-label="Main" className="-mx-1 flex w-full gap-1 overflow-x-auto pb-1">
             {nav.links.map(l => {
               const active = path === l.href;

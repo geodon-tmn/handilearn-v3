@@ -15,7 +15,7 @@ export default function Home() {
     <div className="min-h-[100dvh]">
       <header className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 md:px-8">
         <div className="flex items-center gap-3"><Logo /><PreviewBadge /></div>
-        <ButtonLink href="/admin" variant="ink" size="sm">Open the prototype <ArrowRight /></ButtonLink>
+        <div className="flex items-center gap-2"><ButtonLink href="/login" variant="ghost" size="sm">Sign in</ButtonLink><ButtonLink href="/signup" variant="ink" size="sm">Create an account <ArrowRight /></ButtonLink></div>
       </header>
 
       <section className="mx-auto max-w-6xl px-5 pb-12 pt-8 md:px-8 md:pt-16">
@@ -32,7 +32,7 @@ export default function Home() {
 
       <section className="mx-auto max-w-6xl px-5 pb-20 md:px-8">
         <h2 className="text-xl font-extrabold">Explore the prototype as</h2>
-        <p className="mt-1 text-sm text-muted-foreground">Every screen uses sample data and is marked Preview until it connects to the real system.</p>
+        <p className="mt-1 text-sm text-muted-foreground">Screens marked Preview still use sample data. The admin portal needs a Global Administrator sign-in.</p>
         <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {roles.map(r => (
             <Link key={r.href} href={r.href} className="group">

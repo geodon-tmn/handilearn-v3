@@ -42,11 +42,11 @@ export function Eyebrow({ children, className }: { children: ReactNode; classNam
   return <p className={cn("hl-eyebrow flex items-center gap-3", className)}><span className="h-[3px] w-7 rounded-full bg-primary" aria-hidden="true" />{children}</p>;
 }
 
-export function PageTitle({ eyebrow, title, intro, actions }: { eyebrow: ReactNode; title: string; intro?: ReactNode; actions?: ReactNode }) {
+export function PageTitle({ eyebrow, title, intro, actions, preview }: { eyebrow: ReactNode; title: string; intro?: ReactNode; actions?: ReactNode; preview?: boolean }) {
   return (
     <div className="hl-rise flex flex-wrap items-end justify-between gap-4">
       <div>
-        <Eyebrow>{eyebrow}</Eyebrow>
+        <div className="flex flex-wrap items-center gap-3"><Eyebrow>{eyebrow}</Eyebrow>{preview && <SampleBadge />}</div>
         <h1 className="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">{title}</h1>
         {intro && <div className="mt-2 max-w-2xl text-muted-foreground">{intro}</div>}
       </div>
@@ -137,3 +137,8 @@ export function Field({ label, children, hint }: { label: string; children: Reac
   );
 }
 export const inputClass = "w-full rounded-2xl border border-input bg-card px-4 py-2.5 text-sm font-normal outline-none focus:border-accent";
+
+/** Marks a screen (or part of one) that still shows sample data. */
+export function SampleBadge({ label = "Preview · sample data" }: { label?: string }) {
+  return <span title="Sample data. This becomes real in a later build stage." className="inline-flex items-center rounded-full border border-[hsl(42_70%_70%)] bg-sun-soft px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-[hsl(32_70%_32%)]">{label}</span>;
+}
