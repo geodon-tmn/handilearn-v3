@@ -24,7 +24,8 @@ export async function getSession() {
 export async function ensureBootstrapAdmin(email: string | undefined, id: string) {
   const wanted = process.env.BOOTSTRAP_ADMIN_EMAIL?.trim().toLowerCase();
   if (!wanted || !email || email.toLowerCase() !== wanted) return false;
-  const admin = createAdminClient();
+  let admin;
+  try { admin = createAdminClient(); } catch (e) { console.error("bootstrap:", e instanceof Error ? e.message : e); return false; }
   const { count } = await admin.from("profiles").select("id", { count: "exact", head: true }).eq("role", "global_admin");
   if (count) return false;
   const { error } = await admin.from("profiles").update({ role: "global_admin" }).eq("id", id);
