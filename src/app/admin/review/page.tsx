@@ -20,7 +20,7 @@ export default function ReviewPage() {
 
   return (
     <div className="space-y-6">
-      <PageTitle eyebrow="Upload and review" title={stage === "upload" ? "Load a syllabus" : "CSEC Mathematics"}
+      <PageTitle preview eyebrow="Upload and review" title={stage === "upload" ? "Load a syllabus" : "CSEC Mathematics"}
         intro={stage === "upload" ? "Upload a syllabus and HandiLearn breaks it into modules, topics, objectives and their lessons for you to check." : "Check the outline against the syllabus, fix anything, approve each module, then set it live."} />
       {stage === "upload" && <UploadStep onStart={() => { setProgress(0); setStage("processing"); }} onOpen={() => setStage("review")} />}
       {stage === "processing" && <Processing progress={progress} />}

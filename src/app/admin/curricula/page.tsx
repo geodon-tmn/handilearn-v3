@@ -22,7 +22,7 @@ export default function CurriculaPage() {
 
   return (
     <div className="space-y-6">
-      <PageTitle eyebrow="Curricula" title="Curricula" intro="Each curriculum belongs to one education system or one school." />
+      <PageTitle preview eyebrow="Curricula" title="Curricula" intro="Each curriculum belongs to one education system or one school." />
       <Table head={["Subject", "Belongs to", "Level", "Status", "Objectives", "Students", ""]} rows={rows.map(c => [
         c.id === "csec-maths" ? <Link key="s" href="/admin/review" className="font-semibold text-accent hover:underline">{c.subject}</Link> : <span key="s" className="font-semibold">{c.subject}</span>,
         <span key="o">{c.owner} <span className="text-xs text-muted-foreground">({c.ownerKind === "system" ? "system" : "school"})</span></span>,

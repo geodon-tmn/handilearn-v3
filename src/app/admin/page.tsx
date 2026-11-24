@@ -9,7 +9,7 @@ export default function AdminDashboard() {
   const spend = audit.reduce((n, a) => n + (a.ai?.cost ?? 0), 0);
   return (
     <div className="space-y-8">
-      <PageTitle eyebrow="Dashboard" title="Good evening" intro="Everything across HandiLearn at a glance."
+      <PageTitle preview eyebrow="Dashboard" title="Good evening" intro="Everything across HandiLearn at a glance."
         actions={<ButtonLink href="/admin/review"><Upload /> Upload a syllabus</ButtonLink>} />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
