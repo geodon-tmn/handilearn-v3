@@ -39,58 +39,57 @@ export const curricula: Curriculum[] = [
   { id: "stw-coding", subject: "Introduction to Coding", owner: "St. Winifred's School", ownerKind: "school", level: "Form 2", status: "Live", objectives: 12, students: 9, updated: "2 Nov" },
 ];
 
-/* Hierarchy: subject → module → topic → lesson → objective (kept from v2). */
-export type Objective = { id: string; code: string; title: string; competency: string; quote: string; flag?: "check" };
-export type Lesson = { id: string; title: string; objectives: Objective[] };
-export type Topic = { id: string; title: string; lessons: Lesson[] };
+/* Hierarchy: subject → module → topic → objective → lesson (an objective holds its lessons). */
+export type Lesson = { id: string; title: string };
+export type Objective = { id: string; code: string; title: string; competency: string; quote: string; flag?: "check"; lessons: Lesson[] };
+export type Topic = { id: string; title: string; objectives: Objective[] };
 export type Module = { id: string; title: string; topics: Topic[] };
 export const csecMaths: { subject: string; modules: Module[] } = {
   subject: "Mathematics",
   modules: [
     { id: "m1", title: "Number Theory and Computation", topics: [
-      { id: "t1", title: "Computation", lessons: [
-        { id: "l1", title: "Working with fractions and decimals", objectives: [
-          { id: "o1", code: "1.1", title: "Carry out the four operations with fractions", competency: "Adds, subtracts, multiplies and divides fractions accurately", quote: "perform the four basic operations with fractions" },
-          { id: "o2", code: "1.2", title: "Convert between fractions, decimals and percentages", competency: "Moves between the three forms and chooses the most useful one", quote: "convert among fractions, percentages and decimals" },
-        ] },
-        { id: "l2", title: "Significant figures and standard form", objectives: [
-          { id: "o3", code: "1.3", title: "Round to decimal places and significant figures", competency: "Rounds correctly and explains the effect on accuracy", quote: "approximate a value to a given number of decimal places or significant figures" },
-          { id: "o4", code: "1.4", title: "Write numbers in standard form", competency: "Writes very large and very small numbers in standard form", quote: "express a value in scientific notation" },
-        ] },
+      { id: "t1", title: "Computation", objectives: [
+        { id: "o1", code: "1.1", title: "Carry out the four operations with fractions", competency: "Adds, subtracts, multiplies and divides fractions accurately", quote: "perform the four basic operations with fractions",
+          lessons: [{ id: "o1-l1", title: "Adding and subtracting fractions" }, { id: "o1-l2", title: "Multiplying and dividing fractions" }] },
+        { id: "o2", code: "1.2", title: "Convert between fractions, decimals and percentages", competency: "Moves between the three forms and chooses the most useful one", quote: "convert among fractions, percentages and decimals",
+          lessons: [{ id: "o2-l1", title: "Fractions to decimals and back" }, { id: "o2-l2", title: "Working with percentages" }] },
+        { id: "o3", code: "1.3", title: "Round to decimal places and significant figures", competency: "Rounds correctly and explains the effect on accuracy", quote: "approximate a value to a given number of decimal places or significant figures",
+          lessons: [{ id: "o3-l1", title: "Decimal places" }, { id: "o3-l2", title: "Significant figures" }] },
+        { id: "o4", code: "1.4", title: "Write numbers in standard form", competency: "Writes very large and very small numbers in standard form", quote: "express a value in scientific notation",
+          lessons: [{ id: "o4-l1", title: "Standard form" }] },
       ] },
-      { id: "t2", title: "Number theory", lessons: [
-        { id: "l3", title: "Sets of numbers and number patterns", objectives: [
-          { id: "o5", code: "2.1", title: "Classify numbers as natural, whole, integer or rational", competency: "Places any number in the right set and explains why", quote: "distinguish among sets of numbers" },
-          { id: "o6", code: "2.2", title: "Continue and describe number patterns", competency: "Finds the rule behind a sequence and predicts later terms", quote: "generate a sequence of numbers obeying a given rule", flag: "check" },
-        ] },
+      { id: "t2", title: "Number theory", objectives: [
+        { id: "o5", code: "2.1", title: "Classify numbers as natural, whole, integer or rational", competency: "Places any number in the right set and explains why", quote: "distinguish among sets of numbers",
+          lessons: [{ id: "o5-l1", title: "Sets of numbers" }] },
+        { id: "o6", code: "2.2", title: "Continue and describe number patterns", competency: "Finds the rule behind a sequence and predicts later terms", quote: "generate a sequence of numbers obeying a given rule", flag: "check",
+          lessons: [{ id: "o6-l1", title: "Finding the rule" }, { id: "o6-l2", title: "Predicting later terms" }] },
       ] },
     ] },
     { id: "m2", title: "Consumer Arithmetic", topics: [
-      { id: "t3", title: "Money in everyday life", lessons: [
-        { id: "l4", title: "Profit, loss and discount", objectives: [
-          { id: "o7", code: "3.1", title: "Calculate profit, loss and discount", competency: "Works out profit, loss and discount as amounts and percentages", quote: "calculate discount, sales tax, profit and loss" },
-          { id: "o8", code: "3.2", title: "Calculate simple and compound interest", competency: "Uses the right formula and compares the two kinds of interest", quote: "solve problems involving simple interest and compound interest" },
-        ] },
-        { id: "l5", title: "Bills, rates and wages", objectives: [
-          { id: "o9", code: "3.3", title: "Work out utility bills and hire purchase", competency: "Reads a bill and checks the total", quote: "solve problems involving utility bills and hire purchase" },
-        ] },
+      { id: "t3", title: "Money in everyday life", objectives: [
+        { id: "o7", code: "3.1", title: "Calculate profit, loss and discount", competency: "Works out profit, loss and discount as amounts and percentages", quote: "calculate discount, sales tax, profit and loss",
+          lessons: [{ id: "o7-l1", title: "Profit and loss" }, { id: "o7-l2", title: "Discount and sales tax" }] },
+        { id: "o8", code: "3.2", title: "Calculate simple and compound interest", competency: "Uses the right formula and compares the two kinds of interest", quote: "solve problems involving simple interest and compound interest",
+          lessons: [{ id: "o8-l1", title: "Simple interest" }, { id: "o8-l2", title: "Compound interest" }] },
+        { id: "o9", code: "3.3", title: "Work out utility bills and hire purchase", competency: "Reads a bill and checks the total", quote: "solve problems involving utility bills and hire purchase",
+          lessons: [{ id: "o9-l1", title: "Reading a utility bill" }, { id: "o9-l2", title: "Hire purchase" }] },
       ] },
     ] },
     { id: "m3", title: "Algebra", topics: [
-      { id: "t4", title: "Expressions and equations", lessons: [
-        { id: "l6", title: "Simplifying expressions", objectives: [
-          { id: "o10", code: "7.1", title: "Use symbols to represent numbers", competency: "Writes an expression from a description in words", quote: "use symbols to represent numbers, operations and relations" },
-          { id: "o11", code: "7.2", title: "Simplify algebraic expressions", competency: "Collects like terms and expands brackets", quote: "simplify algebraic expressions" },
-        ] },
-        { id: "l7", title: "Solving linear equations", objectives: [
-          { id: "o12", code: "7.3", title: "Solve linear equations in one unknown", competency: "Solves an equation step by step and checks the answer", quote: "solve linear equations in one unknown" },
-          { id: "o13", code: "7.4", title: "Solve simultaneous linear equations", competency: "Solves a pair of equations by elimination or substitution", quote: "solve simultaneous linear equations in two unknowns", flag: "check" },
-        ] },
+      { id: "t4", title: "Expressions and equations", objectives: [
+        { id: "o10", code: "7.1", title: "Use symbols to represent numbers", competency: "Writes an expression from a description in words", quote: "use symbols to represent numbers, operations and relations",
+          lessons: [{ id: "o10-l1", title: "From words to symbols" }] },
+        { id: "o11", code: "7.2", title: "Simplify algebraic expressions", competency: "Collects like terms and expands brackets", quote: "simplify algebraic expressions",
+          lessons: [{ id: "o11-l1", title: "Collecting like terms" }, { id: "o11-l2", title: "Expanding brackets" }] },
+        { id: "o12", code: "7.3", title: "Solve linear equations in one unknown", competency: "Solves an equation step by step and checks the answer", quote: "solve linear equations in one unknown",
+          lessons: [{ id: "o12-l1", title: "One-step and two-step equations" }, { id: "o12-l2", title: "Equations with brackets and fractions" }] },
+        { id: "o13", code: "7.4", title: "Solve simultaneous linear equations", competency: "Solves a pair of equations by elimination or substitution", quote: "solve simultaneous linear equations in two unknowns", flag: "check",
+          lessons: [{ id: "o13-l1", title: "Elimination" }, { id: "o13-l2", title: "Substitution" }] },
       ] },
     ] },
   ],
 };
-export const allObjectives = csecMaths.modules.flatMap(m => m.topics.flatMap(t => t.lessons.flatMap(l => l.objectives.map(o => ({ ...o, lesson: l.title, topic: t.title, module: m.title })))));
+export const allObjectives = csecMaths.modules.flatMap(m => m.topics.flatMap(t => t.objectives.map(o => ({ ...o, topic: t.title, module: m.title }))));
 
 /* Learning-path graph: from → to means "learn from before to". */
 export type LinkType = "mandatory" | "recommended" | "supporting";
@@ -131,7 +130,7 @@ export const parent = { name: "Keisha Bourne", email: "keisha@example.com" };
 export type Child = { id: string; name: string; age: number; grade: string; school: string; schoolStatus: School["status"]; sharing: "Granted" | "Not asked" | "Asked" | "Withdrawn"; subjects: { name: string; owner: string; mastery: number; next: string }[] };
 export const children: Child[] = [
   { id: "c1", name: "Jaden Bourne", age: 15, grade: "Form 4", school: "The St. Michael School", schoolStatus: "Claimed", sharing: "Asked",
-    subjects: [{ name: "Mathematics", owner: "CSEC", mastery: 42, next: "Profit, loss and discount" }, { name: "English A", owner: "CSEC", mastery: 0, next: "Starts after placement" }] },
+    subjects: [{ name: "Mathematics", owner: "CSEC", mastery: 42, next: "Profit and loss (objective 3.1)" }, { name: "English A", owner: "CSEC", mastery: 0, next: "Starts after placement" }] },
   { id: "c2", name: "Amara Bourne", age: 10, grade: "Class 4", school: "Wesley Hall Infants' School", schoolStatus: "Listed", sharing: "Not asked",
     subjects: [{ name: "Mathematics", owner: "BSSEE", mastery: 67, next: "Area of rectangles" }] },
 ];
@@ -146,7 +145,9 @@ export const jadenPath: PathStep[] = [
 
 export const lessonContent = {
   objective: "o7",
-  lesson: "Profit, loss and discount",
+  objectiveTitle: "Calculate profit, loss and discount",
+  lesson: "Profit and loss",
+  lessonOf: "Lesson 1 of 2",
   profile: "Developing · Secondary · Worked examples · English",
   reused: 37,
   flow: ["Recall", "Teach", "Guided practice", "Independent practice", "Mastery check", "Reflection"],
@@ -195,7 +196,7 @@ export const audit: AuditRow[] = [
   { when: "Today 19:42", who: "You", action: "Uploaded syllabus", target: "CSEC Mathematics", ai: { provider: "Claude", cost: 0.84 } },
   { when: "Today 19:44", who: "System", action: "Built learning path", target: "CSEC Mathematics", ai: { provider: "Claude", cost: 0.21 } },
   { when: "Today 18:10", who: "Jaden Bourne", action: "Completed placement test", target: "CSEC Mathematics · 8 questions", ai: { provider: "Claude", cost: 0.03 } },
-  { when: "Today 18:12", who: "System", action: "Reused stored lesson", target: "Profit, loss and discount" },
+  { when: "Today 18:12", who: "System", action: "Reused stored lesson", target: "Profit and loss · objective 3.1" },
   { when: "Today 17:55", who: "Keisha Bourne", action: "Granted school access", target: "Jaden → The St. Michael School" },
   { when: "Yesterday 16:20", who: "System", action: "Generated illustration", target: "Area of rectangles", ai: { provider: "OpenAI", cost: 0.04 } },
   { when: "Yesterday 09:03", who: "Mrs. P. Alleyne", action: "Claimed school", target: "The St. Michael School" },

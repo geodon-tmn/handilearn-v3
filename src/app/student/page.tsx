@@ -14,7 +14,7 @@ export default function StudentHome() {
         <div>
           <p className="text-sm font-semibold text-muted-foreground">Continue · CSEC Mathematics</p>
           <h2 className="mt-1 text-2xl font-extrabold">{current.title}</h2>
-          <p className="mt-1 text-sm text-muted-foreground">Lesson: {current.lesson} · about 15 minutes</p>
+          <p className="mt-1 text-sm text-muted-foreground">Next lesson: {current.lessons[0]!.title} · {current.lessons.length} lessons in this objective · about 15 minutes each</p>
         </div>
         <ButtonLink href="/student/lesson" size="lg"><Play /> Start lesson</ButtonLink>
       </Panel>

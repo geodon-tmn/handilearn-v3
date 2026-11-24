@@ -21,7 +21,7 @@ export default function ReviewPage() {
   return (
     <div className="space-y-6">
       <PageTitle eyebrow="Upload and review" title={stage === "upload" ? "Load a syllabus" : "CSEC Mathematics"}
-        intro={stage === "upload" ? "Upload a syllabus and HandiLearn breaks it into modules, topics, lessons and objectives for you to check." : "Check the outline against the syllabus, fix anything, approve each module, then set it live."} />
+        intro={stage === "upload" ? "Upload a syllabus and HandiLearn breaks it into modules, topics, objectives and their lessons for you to check." : "Check the outline against the syllabus, fix anything, approve each module, then set it live."} />
       {stage === "upload" && <UploadStep onStart={() => { setProgress(0); setStage("processing"); }} onOpen={() => setStage("review")} />}
       {stage === "processing" && <Processing progress={progress} />}
       {stage === "review" && <Review onLive={() => setStage("live")} />}
@@ -88,7 +88,7 @@ function Review({ onLive }: { onLive: () => void }) {
   const [removed, setRemoved] = useState<Set<string>>(new Set());
   const [checked, setChecked] = useState<Set<string>>(new Set());
   const modules = csecMaths.modules;
-  const flags = useMemo(() => modules.flatMap(m => m.topics.flatMap(t => t.lessons.flatMap(l => l.objectives.filter(o => o.flag && !checked.has(o.id) && !removed.has(o.id))))), [modules, checked, removed]);
+  const flags = useMemo(() => modules.flatMap(m => m.topics.flatMap(t => t.objectives.filter(o => o.flag && !checked.has(o.id) && !removed.has(o.id)))), [modules, checked, removed]);
   const allApproved = modules.every(m => approved.has(m.id));
   const toggle = (set: Set<string>, id: string) => { const n = new Set(set); if (n.has(id)) n.delete(id); else n.add(id); return n; };
 
@@ -98,7 +98,7 @@ function Review({ onLive }: { onLive: () => void }) {
         : <Notice tone="success" title="Every numbered syllabus objective is covered">Approve each module, then set the curriculum live.</Notice>}
       <div className="grid gap-6 lg:grid-cols-[3fr_2fr]">
         <Panel className="p-4 sm:p-6">
-          <div className="flex items-center justify-between"><h2 className="font-extrabold">Outline</h2><span className="text-xs text-muted-foreground">Subject → module → topic → lesson → objective</span></div>
+          <div className="flex items-center justify-between"><h2 className="font-extrabold">Outline</h2><span className="text-xs text-muted-foreground">Subject → module → topic → objective → lesson</span></div>
           <ul className="mt-4 space-y-3">
             {modules.map(m => {
               const isOpen = open.has(m.id), ok = approved.has(m.id);
@@ -111,25 +111,25 @@ function Review({ onLive }: { onLive: () => void }) {
                   {isOpen && m.topics.map(t => (
                     <div key={t.id} className="border-t px-3 pb-3 pt-2">
                       <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Topic · {t.title}</p>
-                      {t.lessons.map(l => (
-                        <div key={l.id} className="mt-2 rounded-xl bg-muted/60 p-2.5">
-                          <p className="text-sm font-semibold">Lesson · {l.title}</p>
-                          <ul className="mt-1.5 space-y-1">
-                            {l.objectives.filter(o => !removed.has(o.id)).map(o => (
-                              <li key={o.id} className={cn("group flex items-start gap-2 rounded-lg px-2 py-1.5 text-sm", selected?.id === o.id ? "bg-card ring-2 ring-accent" : "hover:bg-card")}>
-                                <button onClick={() => setSelected(o)} className="flex flex-1 items-start gap-2 text-left">
-                                  <span className="mt-0.5 font-mono text-xs text-muted-foreground">{o.code}</span>
-                                  <span className="flex-1">{o.title}</span>
-                                  {o.flag && !checked.has(o.id) && <Pill tone="warn">Please check</Pill>}
-                                </button>
-                                {o.flag && !checked.has(o.id) && <button aria-label="Mark checked" onClick={() => setChecked(toggle(checked, o.id))} className="rounded-full p-1 text-leaf hover:bg-leaf-soft"><Check className="h-4 w-4" /></button>}
-                                <button aria-label="Edit" className="rounded-full p-1 text-muted-foreground opacity-0 hover:bg-secondary group-hover:opacity-100"><Pencil className="h-3.5 w-3.5" /></button>
-                                <button aria-label="Delete" onClick={() => setRemoved(toggle(removed, o.id))} className="rounded-full p-1 text-muted-foreground opacity-0 hover:bg-coral-soft hover:text-coral group-hover:opacity-100"><Trash2 className="h-3.5 w-3.5" /></button>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
+                      <ul className="mt-2 space-y-2">
+                        {t.objectives.filter(o => !removed.has(o.id)).map(o => (
+                          <li key={o.id} className={cn("group rounded-xl bg-muted/60 p-2.5 text-sm", selected?.id === o.id && "bg-card ring-2 ring-accent")}>
+                            <div className="flex items-start gap-2">
+                              <button onClick={() => setSelected(o)} className="flex flex-1 items-start gap-2 text-left">
+                                <span className="mt-0.5 font-mono text-xs text-muted-foreground">{o.code}</span>
+                                <span className="flex-1 font-semibold">{o.title}</span>
+                                {o.flag && !checked.has(o.id) && <Pill tone="warn">Please check</Pill>}
+                              </button>
+                              {o.flag && !checked.has(o.id) && <button aria-label="Mark checked" onClick={() => setChecked(toggle(checked, o.id))} className="rounded-full p-1 text-leaf hover:bg-leaf-soft"><Check className="h-4 w-4" /></button>}
+                              <button aria-label="Edit" className="rounded-full p-1 text-muted-foreground opacity-0 hover:bg-secondary group-hover:opacity-100"><Pencil className="h-3.5 w-3.5" /></button>
+                              <button aria-label="Delete" onClick={() => setRemoved(toggle(removed, o.id))} className="rounded-full p-1 text-muted-foreground opacity-0 hover:bg-coral-soft hover:text-coral group-hover:opacity-100"><Trash2 className="h-3.5 w-3.5" /></button>
+                            </div>
+                            <ul className="mt-1.5 space-y-1 pl-8">
+                              {o.lessons.map((l, i) => <li key={l.id} className="text-xs text-muted-foreground">Lesson {i + 1} · {l.title}</li>)}
+                            </ul>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   ))}
                 </li>

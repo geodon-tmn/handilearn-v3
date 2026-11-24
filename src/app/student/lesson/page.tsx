@@ -18,7 +18,7 @@ export default function LessonPage() {
       <div className="hl-rise">
         <Link href="/student" className="inline-flex items-center gap-1 text-sm font-semibold text-muted-foreground hover:text-foreground"><ArrowLeft className="h-4 w-4" /> Home</Link>
         <h1 className="mt-3 text-3xl font-extrabold tracking-tight">{L.lesson}</h1>
-        <div className="mt-2 flex flex-wrap gap-2"><Pill tone="info">CSEC Mathematics · 3.1</Pill><Pill tone="neutral"><Repeat className="h-3 w-3" /> Stored lesson · used by {L.reused} students like you</Pill></div>
+        <div className="mt-2 flex flex-wrap gap-2"><Pill tone="info">CSEC Mathematics · 3.1 {L.objectiveTitle}</Pill><Pill tone="sun">{L.lessonOf}</Pill><Pill tone="neutral"><Repeat className="h-3 w-3" /> Stored lesson · used by {L.reused} students like you</Pill></div>
       </div>
 
       <ol className="flex gap-1.5" aria-label="Lesson steps">

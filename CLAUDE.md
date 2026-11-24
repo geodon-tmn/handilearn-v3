@@ -17,7 +17,8 @@ replaces v2 (geodon-tmn/HandiLearn-20 on Replit). The approved design is the
 
 ## Product model
 - Hierarchy: education system OR school → curriculum → subject → module → topic
-  → lesson → objective. A curriculum belongs to exactly one school or one system.
+  → objective → lesson (an objective holds its lessons). A curriculum belongs to
+  exactly one school or one system.
 - Territories: schools, students and national systems belong to a territory;
   regional bodies (CXC) have none.
 - Learning-path graph between objectives; link types mandatory, recommended,
